@@ -20,6 +20,7 @@ namespace WaterCool.Controllers
             int u_Id = Int32.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid).Value) ;
             List<Friendship> FriendsList = fakerDB.Friends.FindAll(x => x.user_id == u_Id);
             return View(FriendsList);
+            
         }
         
     }

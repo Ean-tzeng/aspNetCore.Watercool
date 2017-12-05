@@ -1,0 +1,50 @@
+<br>
+<div id="showmsg" style="height:300px;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll"></div>
+<input style="width:95%" type ="text" id="message" placeholder="請輸入訊息">
+<input type="button" id="send" value="send">
+
+@section scripts {
+    <script>
+        $(function () {
+            
+            let hubUrl = 'http://localhost:5000/chat';
+            let httpConnection = new signalR.HttpConnection(hubUrl);
+            let hubConnection = new signalR.HubConnection(httpConnection);
+            $('#message').keypress(function(e){
+                var code = (e.code ? e.code : e.which);
+                if(code == 13){
+                    send();
+                }
+            });
+            $("#send").click(send);
+            function send()
+            {
+                var msg = $('#message').val();
+                if(msg == ""){
+                    return ;
+                }
+                hubConnection.invoke('Send', msg);
+                $("#message").val("");
+            }
+
+            hubConnection.start();
+
+        });
+        $(function () {
+
+            let hubUrl = 'http://localhost:5000/chat';
+            let httpConnection = new signalR.HttpConnection(hubUrl);
+            let hubConnection = new signalR.HubConnection(httpConnection);
+            
+            hubConnection.on('Send', data => 
+            {
+                var div = $("#showmsg");
+                div.append(data);
+                div.scrollTop(div.prop("scrollHeight"));
+            });
+
+            hubConnection.start();
+
+        });
+    </script>
+}

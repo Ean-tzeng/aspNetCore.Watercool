@@ -52,16 +52,17 @@ namespace WaterCool
 
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseSignalR(routes =>  // <-- SignalR
+            {
+                routes.MapHub<ChatHub>("chat");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseSignalR(routes =>  // <-- SignalR
-            {
-                routes.MapHub<ChatHub>("chat");
-            });
+
         }
     }
 }
