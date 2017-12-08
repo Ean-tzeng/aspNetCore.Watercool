@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WaterCool.Models;
+using WaterCool.Data;
 
 namespace WaterCool.Controllers
 {
@@ -20,7 +21,6 @@ namespace WaterCool.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
@@ -30,9 +30,10 @@ namespace WaterCool.Controllers
 
             return View();
         }
-
-        public IActionResult Chat()
+        [Authorize]
+        public IActionResult Chat(string id)
         {
+            ViewData["id"]=id;
             return View();
         }
 

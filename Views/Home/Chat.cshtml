@@ -1,15 +1,18 @@
 <br>
-<div id="showmsg" style="height:300px;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll"></div>
+<input type="hidden" id = "userId" value = @ViewData["id"]>
+<div id="showmsg" style="height:300px;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll">
+
+</div>
 <input style="width:95%" type ="text" id="message" placeholder="請輸入訊息">
-<input type="button" id="send" value="send">
+<input type="button" id="send" value="send" >
 
 @section scripts {
     <script>
         $(function () {
             
-            let hubUrl = 'http://localhost:5000/chat';
-            let httpConnection = new signalR.HttpConnection(hubUrl);
-            let hubConnection = new signalR.HubConnection(httpConnection);
+            //let hubUrl = 'http://localhost:5000/chat';
+            //let httpConnection = new signalR.HttpConnection(hubUrl);
+            let hubConnection = new signalR.HubConnection('/chat');
             $('#message').keypress(function(e){
                 var code = (e.code ? e.code : e.which);
                 if(code == 13){
@@ -17,34 +20,53 @@
                 }
             });
             $("#send").click(send);
+            
             function send()
             {
-                var msg = $('#message').val();
+                var msg =   $('#message').val();
+                var id = $("#userId").val();
                 if(msg == ""){
                     return ;
                 }
-                hubConnection.invoke('Send', msg);
-                $("#message").val("");
+                hubConnection.invoke('Send', id, msg);
             }
 
-            hubConnection.start();
-
-        });
-        $(function () {
-
-            let hubUrl = 'http://localhost:5000/chat';
-            let httpConnection = new signalR.HttpConnection(hubUrl);
-            let hubConnection = new signalR.HubConnection(httpConnection);
-            
-            hubConnection.on('Send', data => 
+            hubConnection.on('Send', model => 
             {
                 var div = $("#showmsg");
-                div.append(data);
-                div.scrollTop(div.prop("scrollHeight"));
+                if( model.fromId != $("#userId").val() )
+                {
+                    var unread = $("#unreadCount");
+                    var count = unread.html();
+                    if(count > 0){
+                        count++;
+                    }else{
+                        count = 1;
+                    }
+                    unread.html(count);
+                }else{
+                    div.append("<h3>" + model.fromName + " : " + model.text + "</h3>");
+                    div.append(model.date);
+                    div.scrollTop(div.prop("scrollHeight"));
+                }
             });
-
+            hubConnection.on('SendMyself', model => 
+            {
+                var div = $("#showmsg");
+                    div.append("<h3>" + model.fromName + " : " + model.text + "</h3>");
+                    div.append(model.date);
+                    div.scrollTop(div.prop("scrollHeight"));
+                    $("#message").val("");
+            });
+            hubConnection.on('UserNotOline', data => 
+            {
+                var div = $("#showmsg");
+                    div.append(data);
+                    div.scrollTop(div.prop("scrollHeight"));
+                    $("#message").val("");
+            });
             hubConnection.start();
-
         });
+
     </script>
 }
