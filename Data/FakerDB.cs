@@ -26,7 +26,11 @@ namespace WaterCool.Data
         };
         public static List<MessageModel> Messages = new List<MessageModel>
         {
-            new MessageModel{ FromId = 1, FromName = "admin", ToId= 2, ToName = "test", text = "hi", date= "2017/12/07 下午 3:50"}
+            new MessageModel{ FromId = 2, FromName = "admin", ToId= 1, ToName = "test", text = "hi", date= "2017/12/07 下午 3:50", isRead=true},
+            new MessageModel{ FromId = 1, FromName = "test", ToId= 2, ToName = "admin", text = "hi", date= "2017/12/07 下午 3:51", isRead=false},
+            new MessageModel{ FromId = 1, FromName = "test", ToId= 4, ToName = "friend2", text = "hi", date= "2017/12/07 下午 3:52", isRead=true},
+            new MessageModel{ FromId = 2, FromName = "admin", ToId= 1, ToName = "test", text = "what r u doing?", date= "2017/12/07 下午 3:53", isRead=false},
+            new MessageModel{ FromId = 4, FromName = "admin", ToId= 1, ToName = "test", text = "what r u doing?", date= "2017/12/07 下午 3:54", isRead=false},
         };
         
     }

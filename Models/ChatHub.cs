@@ -11,12 +11,14 @@ namespace WaterCool.Models
 {
     public class MessageModel
     {
+        public int msgid ;
         public int FromId;
         public string FromName;
         public int ToId;
         public string ToName;
         public string text;
         public string date;
+        public bool isRead;
     }
     public class ChatHub : Hub
     {
@@ -45,10 +47,11 @@ namespace WaterCool.Models
             User u = fakerDB.Users.Find(s => s.id == m.ToId);
             m.ToName =u.Username;
             m.date = DateTime.Now.ToString();
+            fakerDB.Messages.Add(m);
             message ="<h3>"+ Context.User.FindFirst(ClaimTypes.Name).Value+ " :  "+message+ "<br>";
             if(u.connectionId == "")
             {
-                await Clients.Client(Context.ConnectionId).InvokeAsync("UserNotOline", "用戶目前不在線上!");
+                await SendMyself(m);
             }else{
                 await Clients.Client(u.connectionId).InvokeAsync("Send", m);
                 await SendMyself(m);

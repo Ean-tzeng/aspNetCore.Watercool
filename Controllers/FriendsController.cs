@@ -24,6 +24,18 @@ namespace WaterCool.Controllers
             return View(FriendsList);
             
         }
+        [Authorize]
+        [HttpPost]
+        public IActionResult getMessage(string from)
+        {
+            int come = Int32.Parse(from);
+            int go = Int32.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid).Value);
+            List<MessageModel> resultA = fakerDB.Messages.FindAll( x => x.FromId == come && x.ToId == go);
+            List<MessageModel> resultB = fakerDB.Messages.FindAll(x => x.FromId == go && x.ToId == come);
+            var result = (resultA.Union(resultB)).OrderBy(x => x.date);
+            return new ObjectResult(result);
+        }
+           
         
     }
 }

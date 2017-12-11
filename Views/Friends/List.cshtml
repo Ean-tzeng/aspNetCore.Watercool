@@ -7,23 +7,25 @@
 
 <div style="clear:right; height:800px; ">
     <div style="width:30%;overflow-y:scroll;height:100%;float:left;">
-        <ul class="nav nav-tab">
         @foreach(var fsl in Model)
         {
-            <li >
-                <a href="#"><h4><div id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)"> @Html.DisplayFor(mfsl => fsl.fri_name) </div></h4>
-                    <span style=" color:dimgray" id="newMsg">這邊會顯示新訊息</span>
+            <div class="panel panel-default">
+                <a style="text-decoration:none;" href="#">
+                    <div style=" height:50px;padding:10px;" id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)">
+                        <div style="font-size:30px;float:left;">@Html.DisplayFor(mfsl => fsl.fri_name)</div> 
+                        <span id = "unreadCount" class="badge"></span>
+                    </div>
+                    <span id = "unreadCount" style="clear:left;">123</span>
+                    
+                    
                 </a>
-                
-            </li>
-        
+            </div>
         }
-        </ul>
     </div>
     <div id="content" style="height:100%;float:left; width:70%;">
         <input type="hidden" id = "userId">
-        <div id="showmsg" style="height:95%;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll;"><div style="height:100px; text-align:center;margin-top:50% ">請選擇聊天對象</div>
-            <div style="width:100; background-color: black; color:white; " id="who" ></div>
+        <div id="showmsg" style=" height:95%;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll;"><div style="height:100px; text-align:center;margin-top:50% ">請選擇聊天對象</div>
+            
         </div>
         <input style="width:90%" type ="text" id="message" placeholder="請輸入訊息" disabled>
         <input type="button" id="send" value="send"  disabled> 
@@ -37,15 +39,36 @@
                 $("#message").removeAttr("disabled");
                 $("#send").removeAttr("disabled");
                 document.getElementById('showmsg').innerHTML = "";
-                
             }
-            userId.value = id;
+            
+            var uid = $("#userId");
+            var obj = $("#"+id)
+            var unread = $("#"+ id +" span");
+            if(unread.html() > 0){
+                unread.html("");
+            }
+            if(uid.val() == ""){
+                obj.css("background-color", "rgba(182, 169, 169, 0.555)");
+            }else{
+                var beWhiteDivId = uid.val();
+                $("#"+beWhiteDivId).css("background-color", "white");
+                obj.css("background-color", "rgba(182, 169, 169, 0.555)");
+            }
+            var aaa = $("#"+id+" div").html();
+            $("#showmsg").html("");
+            $("#showmsg").append('<div style="position: absolute; width:61%; background-color: black; color:white;" id="who" >'+ aaa +'</div>');
+            $.post("http://localhost:5000/Friends/getMessage", {from : id }, function(data, status){
+                var result="";
+                for(var i in data){
+                    result += "<h3>" + data[i].fromName + " : " + data[i].text + "</h3>" + data[i].date;
+                }
+                $("#showmsg").append(result);
+            });
+            uid.val(id);
+            
         }
-
         $(function () {
             
-            //let hubUrl = 'http://localhost:5000/chat';
-            //let httpConnection = new signalR.HttpConnection(hubUrl);
             let hubConnection = new signalR.HubConnection('/chat');
             $('#message').keypress(function(e){
                 var code = (e.code ? e.code : e.which);
@@ -70,7 +93,8 @@
                 var div = $("#showmsg");
                 if( model.fromId != $("#userId").val() )
                 {
-                    var unread = $("#unreadCount");
+                    var unread = $("#"+model.fromId +" span");
+                    //var unread = $("#unreadCount");
                     var count = unread.html();
                     if(count > 0){
                         count++;
