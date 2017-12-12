@@ -18,7 +18,7 @@
                         <script>
                             var id = @Html.DisplayFor(mfsl => fsl.friend_id);
                             var d = getMsg(id, 1);
-                            if(d != null){
+                            if(d.count>0){
                                 $("#"+id+" span:eq(1)").html(d[0].text);
                             }
                         </script>
