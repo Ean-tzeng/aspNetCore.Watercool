@@ -18,7 +18,8 @@
                         <script>
                             var id = @Html.DisplayFor(mfsl => fsl.friend_id);
                             var d = getMsg(id, 1);
-                            if(d.count>0){
+                            var n = d.length;
+                            if(d.length>0){
                                 $("#"+id+" span:eq(1)").html(d[0].text);
                             }
                         </script>
@@ -62,11 +63,12 @@
             }
             var aaa = $("#"+id+" div").html();
             $("#showmsg").html("");
-            $("#showmsg").append('<div style="position: absolute; width:61%; background-color: black; color:white;" id="who" >'+ aaa +'</div>');
+            $("#showmsg").append('<div style="position: absolute; width:61%; background-color: black; color:white;" id="who" >'+ aaa +'</div><br>');
             var data = getMsg( id, 10); 
             var result="";
             for(var i in data){
-                result += "<h3>" + data[i].fromName + " : " + data[i].text + "</h3>" + data[i].date;
+                
+                result += "<span style='font-size:20px;'>" + data[i].fromName + " : " + data[i].text + "</span><br>";
             };
             $("#showmsg").append(result);
             
