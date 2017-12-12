@@ -78,7 +78,7 @@
             });*/
             var d = $.ajax({
                 type: 'POST',
-                url: 'http://localhost:5000/Friends/getMessage',
+                url: '/Friends/getMessage',
                 data: { 'from': id , 'num' :num },
                 async:   false
             }).responseText;
