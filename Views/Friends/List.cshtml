@@ -9,15 +9,19 @@
     <div style="width:30%;overflow-y:scroll;height:100%;float:left;">
         @foreach(var fsl in Model)
         {
-            <div class="panel panel-default">
+            <div style="height:70px;">
                 <a style="text-decoration:none;" href="#">
-                    <div style=" height:50px;padding:10px;" id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)">
-                        <div style="font-size:30px;float:left;">@Html.DisplayFor(mfsl => fsl.fri_name)</div> 
-                        <span id = "unreadCount" class="badge"></span>
+                    <div style="border:solid 1px; height:70px;padding-left:10px;border:solid 1px;" id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)">
+                        <div style="font-size:25px;float:left;">@Html.DisplayFor(mfsl => fsl.fri_name)</div> 
+                        <br><span id = "unreadCount" style="margin-right:10px;float:right;"class="badge"></span><br>
+                        <span style=":10px;padding-left:10px;"></span>
+                        <script>
+                            var id = @Html.DisplayFor(mfsl => fsl.friend_id);
+                            var d = getMsg(id, 1);
+                            $("#"+id+" span:eq(1)").html(d[0].text);
+                        </script>
                     </div>
-                    <span id = "unreadCount" style="clear:left;">123</span>
-                    
-                    
+                    <br>
                 </a>
             </div>
         }
@@ -43,7 +47,7 @@
             
             var uid = $("#userId");
             var obj = $("#"+id)
-            var unread = $("#"+ id +" span");
+            var unread = $("#"+ id +" span:eq(0)");
             if(unread.html() > 0){
                 unread.html("");
             }
@@ -57,16 +61,30 @@
             var aaa = $("#"+id+" div").html();
             $("#showmsg").html("");
             $("#showmsg").append('<div style="position: absolute; width:61%; background-color: black; color:white;" id="who" >'+ aaa +'</div>');
-            $.post("http://localhost:5000/Friends/getMessage", {from : id }, function(data, status){
-                var result="";
-                for(var i in data){
-                    result += "<h3>" + data[i].fromName + " : " + data[i].text + "</h3>" + data[i].date;
-                }
-                $("#showmsg").append(result);
-            });
+            var data = getMsg( id, 10); 
+            var result="";
+            for(var i in data){
+                result += "<h3>" + data[i].fromName + " : " + data[i].text + "</h3>" + data[i].date;
+            };
+            $("#showmsg").append(result);
+            
+            
             uid.val(id);
             
         }
+        function getMsg( id, num){
+             /*$.post("http://localhost:5000/Friends/getMessage", {from : id , num : num},  function(data, status){
+                callback( data);
+            });*/
+            var d = $.ajax({
+                type: 'POST',
+                url: 'http://localhost:5000/Friends/getMessage',
+                data: { 'from': id , 'num' :num },
+                async:   false
+            }).responseText;
+            return JSON.parse(d);
+        }
+
         $(function () {
             
             let hubConnection = new signalR.HubConnection('/chat');
@@ -93,7 +111,8 @@
                 var div = $("#showmsg");
                 if( model.fromId != $("#userId").val() )
                 {
-                    var unread = $("#"+model.fromId +" span");
+                    var unread = $("#"+model.fromId +" span:eq(0)");
+                    var lastM = $("#"+model.fromId+" span:eq(1)");
                     //var unread = $("#unreadCount");
                     var count = unread.html();
                     if(count > 0){
@@ -102,6 +121,7 @@
                         count = 1;
                     }
                     unread.html(count);
+                    lastM.html(model.text);
                 }else{
                     div.append("<h3>" + model.fromName + " : " + model.text + "</h3>");
                     div.append(model.date);

@@ -17,7 +17,7 @@ namespace WaterCool.Models
         public int ToId;
         public string ToName;
         public string text;
-        public string date;
+        public String date;
         public bool isRead;
     }
     public class ChatHub : Hub

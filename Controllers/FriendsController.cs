@@ -26,16 +26,22 @@ namespace WaterCool.Controllers
         }
         [Authorize]
         [HttpPost]
-        public IActionResult getMessage(string from)
+        public IActionResult getMessage(string from, int num)
         {
             int come = Int32.Parse(from);
             int go = Int32.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid).Value);
             List<MessageModel> resultA = fakerDB.Messages.FindAll( x => x.FromId == come && x.ToId == go);
             List<MessageModel> resultB = fakerDB.Messages.FindAll(x => x.FromId == go && x.ToId == come);
-            var result = (resultA.Union(resultB)).OrderBy(x => x.date);
+            var  resultC =(resultA.Union(resultB)).OrderBy(x => x.date);
+            int count = resultC.Count()-num;
+            if(count < 0)
+            {
+                count = 0;
+            }
+            var result = resultC.Skip(count).Take(num);
             return new ObjectResult(result);
         }
            
-        
+
     }
 }

@@ -8,7 +8,6 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <script src="~/lib/jquery/dist/jquery.js"></script>
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -55,6 +54,9 @@
             </div>
         </div>
     </nav>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @RenderSection("Scripts", required: false)
+    
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -85,6 +87,5 @@
         <script src="~/js/signalr-client.min.js"></script>
     </environment>
 
-    @RenderSection("Scripts", required: false)
 </body>
 </html>
