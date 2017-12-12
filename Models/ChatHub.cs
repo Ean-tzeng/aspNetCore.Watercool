@@ -48,6 +48,10 @@ namespace WaterCool.Models
             m.ToName =u.Username;
             m.date = DateTime.Now.ToString();
             fakerDB.Messages.Add(m);
+            if(fakerDB.Messages.Count > 20)
+            {
+                fakerDB.Messages.RemoveAt(0);
+            }
             message ="<h3>"+ Context.User.FindFirst(ClaimTypes.Name).Value+ " :  "+message+ "<br>";
             if(u.connectionId == "")
             {
