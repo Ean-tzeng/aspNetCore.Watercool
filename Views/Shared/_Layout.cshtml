@@ -27,14 +27,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WaterCool</a>
+                <span class="navbar-brand">WaterCool</span>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    
                     <li>
-                        <a asp-area="" asp-controller="Friends" asp-action="List">Friends </a>
-                        
+                        <a asp-area="" asp-controller="Friends" asp-action="List">好友 </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Friends" asp-action="Post">動態消息 </a>
                     </li>
                 </ul>
                 @if (User.Identity.IsAuthenticated){ 
