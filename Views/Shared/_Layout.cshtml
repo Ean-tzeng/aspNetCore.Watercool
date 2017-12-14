@@ -1,6 +1,6 @@
 ﻿@using System.Security.Claims 
 <!DOCTYPE html>
-<html>
+<html style="height:100%;">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body>
+<body style="height:100%;">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -31,9 +31,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    
                     <li>
                         <a asp-area="" asp-controller="Friends" asp-action="List">Friends </a>
                         
@@ -57,7 +55,7 @@
     <script src="~/lib/jquery/dist/jquery.js"></script>
     @RenderSection("Scripts", required: false)
     
-    <div class="container body-content">
+    <div class="container body-content" style="height:85%;">
         @RenderBody()
         <hr />
         <footer>

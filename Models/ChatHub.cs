@@ -44,6 +44,7 @@ namespace WaterCool.Models
             m.FromName= Context.User.FindFirst(ClaimTypes.Name).Value;
             m.ToId = Int32.Parse(id);
             m.text = message;
+            m.isRead = false;
             User u = fakerDB.Users.Find(s => s.id == m.ToId);
             m.ToName =u.Username;
             m.date = DateTime.Now.ToString();

@@ -5,7 +5,7 @@
 
 
 
-<div style="clear:right; height:800px; ">
+<div style="clear:right; height:100%; ">
     <div style="width:30%;overflow-y:scroll;height:100%;float:left;">
         @foreach(var fsl in Model)
         {
@@ -68,10 +68,10 @@
             var result="";
             for(var i in data){
                 
-                result += "<span style='font-size:20px;'>" + data[i].fromName + " : " + data[i].text + "</span><br>";
+                result += "<span style='font-size:20px;'>" + data[i].fromName + " : " + data[i].text + "</span><br>"+data[i].date+"<br>";
             };
             $("#showmsg").append(result);
-            
+            makeMsgBox(data, id);
             
             uid.val(id);
             
@@ -87,6 +87,14 @@
                 async:   false
             }).responseText;
             return JSON.parse(d);
+        }
+        function makeMsgBox( m, from){
+            var res ="";
+            for(i in m){
+                if(m[i].fromId == from){
+                    console.log("left"+m[i].fromName+"to"+m[i].toName)
+                }
+            }
         }
 
         $(function () {
@@ -116,7 +124,6 @@
                 if( model.fromId != $("#userId").val() )
                 {
                     var unread = $("#"+model.fromId +" span:eq(0)");
-                    var lastM = $("#"+model.fromId+" span:eq(1)");
                     //var unread = $("#unreadCount");
                     var count = unread.html();
                     if(count > 0){
@@ -125,20 +132,24 @@
                         count = 1;
                     }
                     unread.html(count);
-                    lastM.html(model.text);
                 }else{
-                    div.append("<h3>" + model.fromName + " : " + model.text + "</h3>");
-                    div.append(model.date);
+                    div.append("<span style='font-size:20px;'>" + model.fromName + " : " + model.text + "<span><br>");
+                    div.append(model.date+"<br>");
                     div.scrollTop(div.prop("scrollHeight"));
                 }
+                var lastM = $("#"+model.fromId+" span:eq(1)");
+                lastM.html(model.text);
+                
             });
             hubConnection.on('SendMyself', model => 
             {
                 var div = $("#showmsg");
-                    div.append("<h3>" + model.fromName + " : " + model.text + "</h3>");
-                    div.append(model.date);
+                    div.append("<span style='font-size:20px;'>" + model.fromName + " : " + model.text + "</span><br>");
+                    div.append(model.date+"<br>");
                     div.scrollTop(div.prop("scrollHeight"));
                     $("#message").val("");
+                    var lastM = $("#"+model.toId+" span:eq(1)");
+                    lastM.html(model.text);
             });
             hubConnection.on('UserNotOline', data => 
             {
