@@ -12,15 +12,15 @@
             <div style="height:70px;">
                 <a style="text-decoration:none;" href="#">
                     <div style="border:solid 1px; height:70px;padding-left:10px;border:solid 1px;" id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)">
-                        <div style="font-size:25px;float:left;overflow-x: hidden;width:80%">@Html.DisplayFor(mfsl => fsl.fri_name)</div> 
+                        <div style="font-size:25px;float:left;overflow-x: hidden;">@Html.DisplayFor(mfsl => fsl.fri_name)</div> 
                         <br><span id = "unreadCount" style="margin-right:10px;float:right;"class="badge"></span><br>
-                        <span style=":10px;padding-left:10px;"></span>
+                        <div style="overflow-x:hidden;"></div>
                         <script>
                             var id = @Html.DisplayFor(mfsl => fsl.friend_id);
                             var d = getMsg(id, 1);
                             var n = d.length;
                             if(d.length>0){
-                                $("#"+id+" span:eq(1)").html(d[0].text);
+                                $("#"+id+" div:eq(1)").html(d[0].text);
                             }
                         </script>
                     </div>
@@ -31,7 +31,7 @@
     </div>
     <div id="content" style="height:100%;float:left; width:70%;">
         <input type="hidden" id = "userId">
-        <div id="showmsg" style=" height:95%;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll;"><div style="height:100px; text-align:center;margin-top:50% ">請選擇聊天對象</div>
+        <div id="showmsg" style="word-wrap:break-word; height:95%;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll;"><div style="height:100px; text-align:center;margin-top:50% ">請選擇聊天對象</div>
             
         </div>
         <input style="width:90%" type ="text" id="message" placeholder="請輸入訊息" disabled>
@@ -65,15 +65,11 @@
             $("#showmsg").html("");
             $("#showmsg").append('<div style="position: absolute; width:61%; background-color: black; color:white;" id="who" >'+ aaa +'</div><br>');
             var data = getMsg( id, 10); 
-            var result="";
-            for(var i in data){
-                
-                result += "<span style='font-size:20px;'>" + data[i].fromName + " : " + data[i].text + "</span><br>"+data[i].date+"<br>";
-            };
-            $("#showmsg").append(result);
-            makeMsgBox(data, id);
-            
+            var result = makeMsgBox(data, id);
             uid.val(id);
+            $("#showmsg").append(result);
+            $("#showmsg").scrollTop($("#showmsg").prop("scrollHeight"));
+            
             
         }
         function getMsg( id, num){
@@ -90,11 +86,23 @@
         }
         function makeMsgBox( m, from){
             var res ="";
-            for(i in m){
-                if(m[i].fromId == from){
-                    console.log("left"+m[i].fromName+"to"+m[i].toName)
+            if(m.fromId>0){
+                if($("#userId").val == from){
+                    res += "<div><div style='margin-right:50%;border:solid 1px;padding:10px;'><span style='font-size:20px;'> " + m.text + "</span><br>"+m.date+"</div><br></div>";
+                }else{
+                    res += "<div><div style='margin-left:50%;border:solid 1px;padding:10px;'><div style='font-size:20px;text-align:right;'>" +  m.text +  "</div><br><div style='text-align:right;'>"+m.date+"</div></div><br></div>";
+                }
+            }else{
+                for(i in m){
+                    var f = m[i].fromId;
+                    if(m[i].fromId == from){
+                        res += "<div><div style='margin-right:50%;border:solid 1px;padding:10px;'><span style='font-size:20px;'>  " + m[i].text + "</span><br>"+m[i].date+"</div><br></div>";
+                    }else{
+                        res += "<div><div style='margin-left:50%;border:solid 1px;padding:10px;'><div style='font-size:20px;text-align:right;'>" +  m[i].text +  "</div><br><div style='text-align:right;'>"+m[i].date+"</div></div><br></div>";
+                    }
                 }
             }
+            return res;
         }
 
         $(function () {
@@ -133,22 +141,24 @@
                     }
                     unread.html(count);
                 }else{
-                    div.append("<span style='font-size:20px;'>" + model.fromName + " : " + model.text + "<span><br>");
-                    div.append(model.date+"<br>");
+                    var res = makeMsgBox(model, model.fromId);
+                    //div.append("<span style='font-size:20px;'>" + model.fromName + " : " + model.text + "<span><br>");
+                    //div.append(model.date+"<br>");
+                    div.append(res);
                     div.scrollTop(div.prop("scrollHeight"));
                 }
-                var lastM = $("#"+model.fromId+" span:eq(1)");
+                var lastM = $("#"+model.fromId+" div:eq(1)");
                 lastM.html(model.text);
                 
             });
             hubConnection.on('SendMyself', model => 
             {
                 var div = $("#showmsg");
-                    div.append("<span style='font-size:20px;'>" + model.fromName + " : " + model.text + "</span><br>");
-                    div.append(model.date+"<br>");
+                    var res = makeMsgBox(model, model.fromId);
+                    div.append(res);
                     div.scrollTop(div.prop("scrollHeight"));
                     $("#message").val("");
-                    var lastM = $("#"+model.toId+" span:eq(1)");
+                    var lastM = $("#"+model.toId+" div:eq(1)");
                     lastM.html(model.text);
             });
             hubConnection.on('UserNotOline', data => 
