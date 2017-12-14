@@ -31,7 +31,7 @@
     </div>
     <div id="content" style="height:100%;float:left; width:70%;">
         <input type="hidden" id = "userId">
-        <div id="showmsg" style="word-wrap:break-word; height:95%;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll;"><div style="height:100px; text-align:center;margin-top:50% ">請選擇聊天對象</div>
+        <div id="showmsg" style="padding-left:10px;padding-right:10px;word-wrap:break-word; height:95%;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll;"><div style="height:100px; text-align:center;margin-top:50% ">請選擇聊天對象</div>
             
         </div>
         <input style="width:90%" type ="text" id="message" placeholder="請輸入訊息" disabled>
@@ -41,6 +41,9 @@
 </div>
 @section scripts {
     <script>
+        $("#message").focus(function(){
+            $("#showmsg").scrollTop($("#showmsg").prop("scrollHeight"));
+        });
         function communication(id){
             if($("#message").prop('disabled') == true){
                 $("#message").removeAttr("disabled");

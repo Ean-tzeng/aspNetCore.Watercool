@@ -44,7 +44,7 @@ namespace WaterCool.Controllers
                  }
                  else
                  {
-                     return RedirectToAction(nameof(HomeController.Index), "Home");
+                     return RedirectToAction(nameof(FriendsController.List), "Friends");
                  }
             }
             else
