@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SignalR;
 using WaterCool.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace WaterCool
 {
@@ -33,6 +35,15 @@ namespace WaterCool
                    
                     options.LoginPath = new PathString("/Auth/Login");
                     options.AccessDeniedPath = new PathString("/denied");
+              })
+              .AddJwtBearer(jwtoptions =>
+              {
+                  jwtoptions.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                    ValidIssuer = Configuration["Tokens:Issuer"],
+                    ValidAudience = Configuration["Tokens:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                    };
               });
               services.AddSignalR();
         }

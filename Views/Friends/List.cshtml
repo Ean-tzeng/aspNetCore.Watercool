@@ -90,7 +90,7 @@
         function makeMsgBox( m, from){
             var res ="";
             if(m.fromId>0){
-                if($("#userId").val == from){
+                if($("#userId").val() == from){
                     res += "<div><div style='margin-right:50%;border:solid 1px;padding:10px;'><span style='font-size:20px;'> " + m.text + "</span><br>"+m.date+"</div><br></div>";
                 }else{
                     res += "<div><div style='margin-left:50%;border:solid 1px;padding:10px;'><div style='font-size:20px;text-align:right;'>" +  m.text +  "</div><br><div style='text-align:right;'>"+m.date+"</div></div><br></div>";
