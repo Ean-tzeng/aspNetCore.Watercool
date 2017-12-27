@@ -12975,23 +12975,26 @@
   },
   "packageFolders": {
     "C:\\Users\\Ean.Tzeng\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ean.Tzeng\\Desktop\\WaterCool\\WaterCool.csproj",
+      "projectUniqueName": "C:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\WaterCool.csproj",
       "projectName": "WaterCool",
-      "projectPath": "C:\\Users\\Ean.Tzeng\\Desktop\\WaterCool\\WaterCool.csproj",
+      "projectPath": "C:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\WaterCool.csproj",
       "packagesPath": "C:\\Users\\Ean.Tzeng\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ean.Tzeng\\Desktop\\WaterCool\\obj\\",
+      "outputPath": "C:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\Ean.Tzeng\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -13014,22 +13017,22 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.NETCore.App": {
-            "target": "Package",
-            "version": "2.0.0",
-            "autoReferenced": true
-          },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
-            "version": "2.0.3"
+            "version": "[2.0.3, )"
           },
           "Microsoft.AspNetCore.SignalR": {
             "target": "Package",
-            "version": "1.0.0-alpha2-final"
+            "version": "[1.0.0-alpha2-final, )"
           },
           "Microsoft.AspNetCore.SignalR.Core": {
             "target": "Package",
-            "version": "1.0.0-alpha2-final"
+            "version": "[1.0.0-alpha2-final, )"
+          },
+          "Microsoft.NETCore.App": {
+            "target": "Package",
+            "version": "[2.0.0, )",
+            "autoReferenced": true
           }
         },
         "imports": [
