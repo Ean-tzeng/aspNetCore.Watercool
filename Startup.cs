@@ -40,8 +40,8 @@ namespace WaterCool
               {
                   jwtoptions.TokenValidationParameters = new TokenValidationParameters()
                     {
-                    ValidIssuer = Configuration["Tokens:Issuer"],
-                    ValidAudience = Configuration["Tokens:Issuer"],
+                    ValidIssuer = Configuration["Issuer"],
+                    ValidAudience = Configuration["Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
                     };
               });

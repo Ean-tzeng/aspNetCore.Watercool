@@ -41,11 +41,11 @@ namespace WaterCool.Controllers
             var result = resultC.Skip(count).Take(num);
             return new ObjectResult(result);
         }
-        [Authorize]
+        [Authorize()]
         public IActionResult Post()
         {
             
-            return View();
+            return new ObjectResult(fakerDB.Users);
             
         }
 

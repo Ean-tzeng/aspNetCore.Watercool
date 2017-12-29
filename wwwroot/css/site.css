@@ -33,3 +33,38 @@
         display: none;
     }
 }
+.myMsg{
+    width:100%;
+    text-align:right;
+    display:inline-block;
+    padding: 5px;
+}
+.otherMsg{
+    width:100%;
+    text-align:left;
+    padding: 5px;
+    display:inline-block;
+}
+.msgText{
+    padding:10px;
+    border-radius: 15px;
+    background-color: rgba(0, 162, 255, 0.897);
+    font-size:20px;
+}
+.badge-red {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: red;
+    border-radius: 10px;
+    }
+.badge-red:empty{
+    display: none ;
+}

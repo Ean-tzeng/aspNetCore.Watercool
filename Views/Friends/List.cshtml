@@ -11,10 +11,10 @@
         {
             <div style="height:70px;">
                 <a style="text-decoration:none;" href="#">
-                    <div style="border:solid 1px; height:70px;padding-left:10px;border:solid 1px;" id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)">
-                        <div style="font-size:25px;float:left;overflow-x: hidden;">@Html.DisplayFor(mfsl => fsl.fri_name)</div> 
-                        <br><span id = "unreadCount" style="margin-right:10px;float:right;"class="badge"></span><br>
-                        <div style="overflow-x:hidden;"></div>
+                    <div style="border: solid 1px; border-color:darkgrey; height:70px;padding-left:10px;" id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)">
+                        <div style="font-size:25px;float:left;color:black; overflow-x: hidden;">@Html.DisplayFor(mfsl => fsl.fri_name)</div> 
+                        <br><span id = "unreadCount" style="margin-right:10px;float:right;"class="badge-red"></span><br>
+                        <div style="color:darkgray; overflow-x:hidden;"></div>
                         <script>
                             var id = @Html.DisplayFor(mfsl => fsl.friend_id);
                             var d = getMsg(id, 1);
@@ -34,8 +34,7 @@
         <div id="showmsg" style="padding-left:10px;padding-right:10px;word-wrap:break-word; height:95%;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll;"><div style="height:100px; text-align:center;margin-top:50% ">請選擇聊天對象</div>
             
         </div>
-        <input style="width:90%" type ="text" id="message" placeholder="請輸入訊息" disabled>
-        <input type="button" id="send" value="send"  disabled> 
+        <textarea style="overflow-y:scroll;resize: none; height:5%;width:100%" type ="text" id="message" placeholder="請輸入訊息" disabled></textarea>
     </div>
     
 </div>
@@ -47,7 +46,6 @@
         function communication(id){
             if($("#message").prop('disabled') == true){
                 $("#message").removeAttr("disabled");
-                $("#send").removeAttr("disabled");
                 document.getElementById('showmsg').innerHTML = "";
             }
             
@@ -66,7 +64,7 @@
             }
             var aaa = $("#"+id+" div").html();
             $("#showmsg").html("");
-            $("#showmsg").append('<div style="position: absolute; width:61%; background-color: black; color:white;" id="who" >'+ aaa +'</div><br>');
+            $("#showmsg").append('<div style="position: absolute; width:61%; background-color: black; color:white;" id="who" >'+ aaa +'</div><br><br>');
             var data = getMsg( id, 10); 
             var result = makeMsgBox(data, id);
             uid.val(id);
@@ -91,17 +89,17 @@
             var res ="";
             if(m.fromId>0){
                 if($("#userId").val() == from){
-                    res += "<div><div style='margin-right:50%;border:solid 1px;padding:10px;'><span style='font-size:20px;'> " + m.text + "</span><br>"+m.date+"</div><br></div>";
+                    res += "<div class='otherMsg'><span class='msgText'> " + m.text + "</span><br><br>"+m.date+"</div>";
                 }else{
-                    res += "<div><div style='margin-left:50%;border:solid 1px;padding:10px;'><div style='font-size:20px;text-align:right;'>" +  m.text +  "</div><br><div style='text-align:right;'>"+m.date+"</div></div><br></div>";
+                    res += "<div class='myMsg'><span class='msgText'>" +  m.text +  "</span><br><br>"+m.date+"</div>";
                 }
             }else{
                 for(i in m){
                     var f = m[i].fromId;
                     if(m[i].fromId == from){
-                        res += "<div><div style='margin-right:50%;border:solid 1px;padding:10px;'><span style='font-size:20px;'>  " + m[i].text + "</span><br>"+m[i].date+"</div><br></div>";
+                        res += "<div class='otherMsg'><span class='msgText'>  " + m[i].text + "</span><br><br>"+m[i].date+"</div>";
                     }else{
-                        res += "<div><div style='margin-left:50%;border:solid 1px;padding:10px;'><div style='font-size:20px;text-align:right;'>" +  m[i].text +  "</div><br><div style='text-align:right;'>"+m[i].date+"</div></div><br></div>";
+                        res += "<div class='myMsg'><span class='msgText'>" +  m[i].text +  "</span><br><br>"+m[i].date+"</div>";
                     }
                 }
             }
@@ -117,7 +115,6 @@
                     send();
                 }
             });
-            $("#send").click(send);
             
             function send()
             {

@@ -53,6 +53,27 @@ namespace WaterCool.Controllers
                 return View(model);
             }
          }
+         public  IActionResult SignUp()
+         {
+              return View();
+         }
+         [HttpPost]
+         public IActionResult SignUp(LoginViewModel model, string returnUrl = null)
+         {
+            User user = fakerDB.Users.SingleOrDefault(s => s.Username == model.Username && s.password == model.password);            
+            if(user != null )
+            {
+                ViewData["noUser"]="帳號重複";
+                return View(model);
+            }
+            else
+            {
+                int i = fakerDB.Users.Max(x => x.id)+1;
+                fakerDB.Users.Add(new User{ id = i, Username=model.Username, password=model.password, role="Member", connectionId="" });
+                 return RedirectToAction(nameof(AuthController.Login), "Auth");
+            }
+            
+         }
          public async Task<IActionResult> Logout()
          {
              await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
