@@ -44,7 +44,7 @@ namespace WaterCool.Controllers
                  }
                  else
                  {
-                     return RedirectToAction(nameof(PostController.Post), "Friends");
+                     return RedirectToAction(nameof(PostController.Post), "Post");
                  }
             }
             else

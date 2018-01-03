@@ -8,5 +8,6 @@ namespace WaterCool.Models
         public int userId;
         public string context;
         public String update;
+        public String Likes;
     }
 }
