@@ -44,7 +44,7 @@ namespace WaterCool.Controllers
                  }
                  else
                  {
-                     return RedirectToAction(nameof(FriendsController.List), "Friends");
+                     return RedirectToAction(nameof(PostController.Post), "Friends");
                  }
             }
             else
@@ -77,7 +77,7 @@ namespace WaterCool.Controllers
          public async Task<IActionResult> Logout()
          {
              await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-             return RedirectToAction(nameof(HomeController.Index), "Home");
+             return RedirectToAction(nameof(PostController.Post), "Post");
          }
     }
 }

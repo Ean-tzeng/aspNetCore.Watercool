@@ -68,3 +68,57 @@
 .badge-red:empty{
     display: none ;
 }
+footer{
+    height:5%;
+    width: 100%;
+    position: absolute;
+    overflow-x: hidden;
+    bottom: 0px;
+    left: 0px;
+    text-align:center;
+    background-color:gainsboro;
+}
+.PostCard{
+    padding: 10px;
+    box-shadow:4px 4px 12px -2px rgba(20%,20%,40%,0.5);
+}
+.PostAuth{
+    width: 100%;
+    font-size: 15px;
+}
+#PostCotainer{
+   padding: 10px;
+   overflow-y: scroll;
+   height: 100%;
+}
+.PostContent{
+    padding-left: 10px;
+    width:100%;
+}
+.PostBtn{
+    width:33%;
+    float:left;
+    text-align: center;
+    background-color: white;
+    border:none;
+    
+}
+.PostBtn:hover{
+    background-color: darkgray;
+}
+.PostBtn:active{
+    background-color: aqua;
+    border:none;
+}
+.PostBtn:focus{
+    border:none;
+    outline: none;
+}
+.PostDate{
+    color: rgb(143, 143, 143);
+}
+#PostCommand{
+    height:20px;
+}
+#PostLike{
+}

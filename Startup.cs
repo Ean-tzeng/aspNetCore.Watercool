@@ -71,7 +71,7 @@ namespace WaterCool
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Friends}/{action=List}/{id?}");
+                    template: "{controller=Post}/{action=Post}/{id?}");
             });
 
         }

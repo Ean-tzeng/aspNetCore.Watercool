@@ -28,6 +28,8 @@ namespace WaterCool.Data
         {
             
         };
-        
+        public static List<PostsModel> Posts = new List<PostsModel>
+        {
+        };
     }
 }

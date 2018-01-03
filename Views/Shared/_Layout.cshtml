@@ -32,10 +32,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>
+                        <a asp-area="" asp-controller="Post" asp-action="Post">動態消息 </a>
+                    </li>
+                    <li>
                         <a asp-area="" asp-controller="Friends" asp-action="List">好友 </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="Friends" asp-action="Post">動態消息 </a>
+                        <a asp-area="" asp-controller="Home" asp-action="Info">Info </a>
                     </li>
                 </ul>
                 @if (User.Identity.IsAuthenticated){ 
@@ -58,11 +61,11 @@
     
     <div class="container body-content" style="height:85%;">
         @RenderBody()
-        <hr />
+        
+    </div>
         <footer>
             <p>&copy; 2017 - WaterCool</p>
         </footer>
-    </div>
 
     <environment include="Development">
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

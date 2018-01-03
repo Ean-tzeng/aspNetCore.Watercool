@@ -41,13 +41,7 @@ namespace WaterCool.Controllers
             var result = resultC.Skip(count).Take(num);
             return new ObjectResult(result);
         }
-        [Authorize()]
-        public IActionResult Post()
-        {
-            
-            return new ObjectResult(fakerDB.Users);
-            
-        }
+
 
     }
 }

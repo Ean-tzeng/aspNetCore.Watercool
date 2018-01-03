@@ -1,0 +1,95 @@
+<div style="height:80px;width:100%;">
+    <br>
+    <div style="float:left;width:80%;"><textarea id= 'PostText' style="width:100%;resize:none;"></textarea></div>
+    <div style="float:left;width:20%;height:100%;padding:1%;"><button id = "submit" class="btn" style="width:100%;height:70%;" onclick="PostPost()">送出</button></div>
+</div>
+<div  class="row" style="padding:15px; height:100%;">
+    
+    <div id="PostCotainer" class="col-md-6">
+                
+    </div>
+    
+</div>
+<script>
+    $(document).ready(function(){
+        var posts = getPost(10);
+        var postContainer = document.getElementById("PostCotainer");
+        console.log(posts);
+        for( var tmp in posts){
+            //postContainer.appendChild( makePost(posts[tmp]) );
+            postContainer.appendChild(makePost(posts[tmp]));
+        }
+    });
+    function PostPost(){
+        var posttxt = document.getElementById('PostText');
+        var postContainer = document.getElementById("PostCotainer");
+        if(posttxt.value !=""){
+            var d = $.ajax({
+                type: 'POST',
+                url: '/Post/Post',
+                data: { content: posttxt.value  },
+                async:   false
+            }).responseText;
+            var e = JSON.parse(d);
+            e.author = "@User.Identity.Name";
+            console.log(d);
+            var node = postContainer.childNodes[0];
+            if(postContainer.firstChild){
+                postContainer.insertBefore(makePost(e), postContainer.firstChild);
+            }else{
+                postContainer.appendChild(makePost(e));
+            }
+            posttxt.value ="";
+            
+            
+            
+        }
+        
+    }
+    function getPost(num){
+        var d = $.ajax({
+            type: 'POST',
+            url: '/Post/GetPost',
+            data: { 'count': num },
+            async:   false
+        }).responseText;
+        return JSON.parse(d);
+    }
+    function makePost(obj){
+        var PostCard = document.createElement("DIV");
+        var PostAuth = document.createElement("DIV");
+        var PostDate = document.createElement("DIV");
+        var PostContent = document.createElement("SPAN");
+        var PostLike = document.createElement("DIV");
+        var PostCommand = document.createElement("DIV");
+        var LikeBtn = document.createElement("BUTTON");
+        var ReplyBtn = document.createElement("BUTTON");
+        var ShareBtn = document.createElement("BUTTON");
+        PostCard.className = "PostCard";
+        PostAuth.className = "PostAuth";
+        PostAuth.id = obj.userid;
+        PostDate.className = "PostDate";
+        PostContent.className = "PostContent";
+        LikeBtn.className = "PostBtn";
+        ReplyBtn.className = "PostBtn";
+        ShareBtn.className = "PostBtn";
+        PostCard.id = obj.postId;
+        PostAuth.innerHTML = obj.author;
+        PostDate.innerHTML = obj.update;
+        PostContent.innerHTML = obj.context;
+        PostCard.appendChild(PostAuth);
+        PostCard.appendChild(PostDate);
+        PostCard.appendChild(PostContent);
+        PostCard.appendChild(PostLike);
+        PostCard.appendChild(PostCommand);
+        PostLike.id = "PostLike";
+        LikeBtn.innerHTML = "<img src='http://www.shejiye.com/uploadfile/icon/2017/0203/shejiyeiconkpysipobwkn.png' width='20' height='20'>";
+        ReplyBtn.innerHTML = "留言";
+        ShareBtn.innerHTML = "分享";
+        PostCommand.id = "PostCommand";
+        PostCommand.appendChild(LikeBtn);
+        PostCommand.appendChild(ReplyBtn);
+        PostCommand.appendChild(ShareBtn);
+        return PostCard;
+    }
+</script>

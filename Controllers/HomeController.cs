@@ -13,7 +13,7 @@ namespace WaterCool.Controllers
     public class HomeController : Controller
     {
         [Authorize]
-        public IActionResult Index()
+        public IActionResult Info()
         {
             return View();
         }
