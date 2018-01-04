@@ -30,6 +30,11 @@ namespace WaterCool.Data
         };
         public static List<PostsModel> Posts = new List<PostsModel>
         {
+            
+        };
+        public static List<Info> Infos = new List<Info>
+        {
+            new Info{ id= 1, userId = 1, sex = "boy", city = "newyork", birth = "1990/03/13", job = "eng",  }
         };
     }
 }

@@ -7,15 +7,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WaterCool.Models;
 using WaterCool.Data;
+using Newtonsoft.Json;
 
 namespace WaterCool.Controllers
 {
     public class HomeController : Controller
     {
         [Authorize]
-        public IActionResult Info()
+        public IActionResult Info(int id)
         {
-            return View();
+            var newlist =  fakerDB.Infos.Join(fakerDB.Users, Info => Info.userId, User => User.id, (Info, User) => new { infoid = Info.id, uid = User.id, username = User.Username, sex = Info.sex, city = Info.city, birthday = Info.birth, job = Info.job, introduce = Info.introduce, photoAddress = Info.photoAddress });
+            var result = JsonConvert.SerializeObject(newlist.FirstOrDefault(x => x.uid == id));
+            var info = JsonConvert.DeserializeObject(result, typeof(InfoViewModel));
+            return View(info);
         }
 
         public IActionResult About()

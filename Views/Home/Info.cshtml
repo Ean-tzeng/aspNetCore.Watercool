@@ -1,8 +1,14 @@
-﻿@{
+﻿@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model WaterCool.Models.InfoViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div style="width:100%; height:30%; background-color:darkgrey;position:relative; ">
+<div style="width:100%; height:200px; background-color:darkgrey;position:relative; ">
     <div style="width:180px;position:absolute;bottom:0px;">
         <img src="http://fakeimg.pl/180x180/">
     </div>
@@ -17,15 +23,15 @@
 
     <div class="col-md-6">
         <ul>
-            <li>姓名:</li>
-            <li>性別:</li>
-            <li>城市:</li>
-            <li>生日:</li>
-            <li>工作:</li>
-            <li>興趣:</li>
+            <li>姓名:<label>@Model.username</label></li>
+            <li>性別:<label>@Model.sex</label></li>
+            <li>城市:<label>@Model.city</label></li>
+            <li>生日:<label>@Model.birthday</label></li>
+            <li>工作:<label>@Model.job</label></li>
             自我介紹:<br>
-            <span id="introduce"></span>
+            <label>@Model.introduce</label> 
         </ul>
     </div>
     
 </div>
+
