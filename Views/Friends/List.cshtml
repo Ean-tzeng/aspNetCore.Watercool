@@ -111,8 +111,9 @@
             let hubConnection = new signalR.HubConnection('/chat');
             $('#message').keypress(function(e){
                 var code = (e.code ? e.code : e.which);
-                if(code == 13){
+                if(code == 13 && !e.shiftKey){
                     send();
+                    e.preventDefault();
                 }
             });
             
