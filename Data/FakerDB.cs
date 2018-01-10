@@ -34,7 +34,7 @@ namespace WaterCool.Data
         };
         public static List<Info> Infos = new List<Info>
         {
-            new Info{ id= 1, userId = 1, sex = "boy", city = "newyork", birth = "1990/03/13", job = "eng",  }
+            new Info{ id= 1, userId = 1, sex = "男", city = "newyork", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" }
         };
     }
 }

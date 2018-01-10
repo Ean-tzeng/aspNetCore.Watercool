@@ -32,11 +32,12 @@ namespace WaterCool.Controllers
             fakerDB.Posts.Add(post);
             return new JsonResult(post);
         }
-        [Authorize]
+        [Authorize()]
         [HttpPost]
         public IActionResult GetPost(int count)
         {
-            int idx = Int32.Parse( HttpContext.User.FindFirst(ClaimTypes.Sid).Value );
+            //int idx = Int32.Parse( HttpContext.User.FindFirst(ClaimTypes.Sid).Value );
+            int idx = 1;
             List<Friendship> Friends = fakerDB.Friends.FindAll(x => x.friend_id == idx);
             List<PostsModel> posts = fakerDB.Posts.FindAll(x => x.userId == idx);
             foreach( Friendship F in Friends)

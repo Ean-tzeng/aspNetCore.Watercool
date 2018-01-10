@@ -8,18 +8,95 @@ using Microsoft.AspNetCore.Mvc;
 using WaterCool.Models;
 using WaterCool.Data;
 using Newtonsoft.Json;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace WaterCool.Controllers
 {
     public class HomeController : Controller
     {
         [Authorize]
+        public IActionResult Self()
+        {
+            int id =Int32.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid).Value);
+            return RedirectToAction("Info","Home", new{ id = id } );
+        }
+        [Authorize]
         public IActionResult Info(int id)
         {
             var newlist =  fakerDB.Infos.Join(fakerDB.Users, Info => Info.userId, User => User.id, (Info, User) => new { infoid = Info.id, uid = User.id, username = User.Username, sex = Info.sex, city = Info.city, birthday = Info.birth, job = Info.job, introduce = Info.introduce, photoAddress = Info.photoAddress });
             var result = JsonConvert.SerializeObject(newlist.FirstOrDefault(x => x.uid == id));
+            bool IsSelf = true;
+            int uid = Int32.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid).Value);
+            ViewBag.uid = uid;
+            if(id != uid)
+            {
+                IsSelf = false;
+                bool IsFriend = true;
+                Friendship relation = fakerDB.Friends.FirstOrDefault( x => x.user_id == uid && x.friend_id == id );
+                if(relation == null)
+                {
+                    IsFriend = false;
+                }
+                ViewBag.isFriend = IsFriend;
+            }
+            ViewBag.isself = IsSelf;
+            if(result == null)
+            {
+                return View();
+            }
+            else
+            {
+                var info = JsonConvert.DeserializeObject(result, typeof(InfoViewModel));
+                return View(info);
+            }
+            
+        }
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var newlist =  fakerDB.Infos.Join(fakerDB.Users, Info => Info.userId, User => User.id, (Info, User) => new { infoid = Info.id, uid = User.id, username = User.Username, sex = Info.sex, city = Info.city, birthday = Info.birth, job = Info.job, introduce = Info.introduce, photoAddress = Info.photoAddress });
+            var result = JsonConvert.SerializeObject(newlist.FirstOrDefault(x => x.uid == id));
             var info = JsonConvert.DeserializeObject(result, typeof(InfoViewModel));
-            return View(info);
+            if(info != null)
+            {
+                return View(info);
+            }else
+            {
+                string unmae = fakerDB.Users.SingleOrDefault(x => x.id == id).Username;
+                var nullInfo = new InfoViewModel { uid = id, username = unmae};
+                return View(nullInfo);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(int uid, string sex, string birthday, string job, string introduce, string city, IFormFile upl)
+        {
+            
+            Info info = fakerDB.Infos.SingleOrDefault(x => x.userId == uid);
+            if(info == null)
+            {
+                fakerDB.Infos.Add( new Info
+                { 
+                    id = fakerDB.Infos.Max(x => x.id),
+                    userId = uid,
+                    sex = sex,
+                    city = city,
+                    birth = birthday,
+                    job = job,
+                    introduce = introduce,
+                });
+            }
+            else
+            {
+                info.sex = sex;
+                info.birth = birthday;
+                info.job = job;
+                info.introduce = introduce;
+                info.city = city;
+            }
+            return RedirectToAction("Self");
         }
 
         public IActionResult About()

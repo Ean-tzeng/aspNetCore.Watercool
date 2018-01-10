@@ -21,6 +21,9 @@
             //postContainer.appendChild( makePost(posts[tmp]) );
             postContainer.appendChild(makePost(posts[tmp]));
         }
+        var d = aaa();
+        $("#PostCotainer").innerHTML = d ;
+
     });
     function PostPost(){
         var posttxt = document.getElementById('PostText');
@@ -57,6 +60,8 @@
         }).responseText;
         return JSON.parse(d);
     }
+
+
     function makePost(obj){
         var PostCard = document.createElement("DIV");
         var PostAuth = document.createElement("DIV");
