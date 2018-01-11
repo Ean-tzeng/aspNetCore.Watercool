@@ -93,10 +93,19 @@ namespace WaterCool.Controllers
                 var path = Path.Combine(
                     Directory.GetCurrentDirectory(), @"wwwroot\images\photo", 
                     pic.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
+                try
                 {
-                    //await pic.CopyToAsync(stream);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        //await pic.CopyToAsync(stream);
+                    }
                 }
+                catch(Exception e)
+                {
+                    ViewBag.error = e;
+                    return View();
+                }
+                
                 //p = "/images/photo/"+pic.FileName;
             }
             
