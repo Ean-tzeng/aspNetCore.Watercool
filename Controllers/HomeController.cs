@@ -84,7 +84,7 @@ namespace WaterCool.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Edit(int uid, string sex, string birthday, string job, string introduce, string city, IFormFile pic)
+        public string Edit(int uid, string sex, string birthday, string job, string introduce, string city, IFormFile pic)
         {
             string p ="";
             Info info = fakerDB.Infos.SingleOrDefault(x => x.userId == uid);
@@ -93,8 +93,7 @@ namespace WaterCool.Controllers
                 var path = Path.Combine(
                     Directory.GetCurrentDirectory(), @"wwwroot\images\photo", 
                     pic.FileName);
-                ViewBag.path = path;
-                return View();
+                return path ;
                 /*using (var stream = new FileStream("", FileMode.Create))
                 {
                     //await pic.CopyToAsync(stream);
@@ -129,7 +128,8 @@ namespace WaterCool.Controllers
             }*/
 
 
-            return RedirectToAction("Self");
+            //return RedirectToAction("Self");
+            return "bb";
         }
 
         public IActionResult About()
