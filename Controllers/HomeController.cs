@@ -93,17 +93,18 @@ namespace WaterCool.Controllers
                 var path = Path.Combine(
                     Directory.GetCurrentDirectory(), @"wwwroot\images\photo", 
                     pic.FileName);
-
-                using (var stream = new FileStream("", FileMode.Create))
+                ViewBag.path = path;
+                return View();
+                /*using (var stream = new FileStream("", FileMode.Create))
                 {
                     //await pic.CopyToAsync(stream);
                 }
 
                 
-                //p = "/images/photo/"+pic.FileName;
+                //p = "/images/photo/"+pic.FileName;*/
             }
             
-            if(info == null)
+            /*if(info == null)
             {
                 fakerDB.Infos.Add( new Info
                 { 
@@ -125,7 +126,7 @@ namespace WaterCool.Controllers
                 info.introduce = introduce;
                 info.city = city;
                 info.photoAddress = p == "" ? info.photoAddress : p;
-            }
+            }*/
 
 
             return RedirectToAction("Self");
