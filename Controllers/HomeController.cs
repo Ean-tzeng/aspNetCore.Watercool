@@ -84,26 +84,25 @@ namespace WaterCool.Controllers
 
         [Authorize]
         [HttpPost]
-        public string Edit(int uid, string sex, string birthday, string job, string introduce, string city, IFormFile pic)
+        public async Task<IActionResult> Edit(int uid, string sex, string birthday, string job, string introduce, string city, IFormFile pic)
         {
             string p ="";
             Info info = fakerDB.Infos.SingleOrDefault(x => x.userId == uid);
             if (pic != null || pic.Length != 0)
             {
                 var path = Path.Combine(
-                    Directory.GetCurrentDirectory(), @"wwwroot\images\photo", 
+                    Directory.GetCurrentDirectory(), @"wwwroot/images/photo", 
                     pic.FileName);
-                return path ;
-                /*using (var stream = new FileStream("", FileMode.Create))
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    //await pic.CopyToAsync(stream);
+                    await pic.CopyToAsync(stream);
                 }
 
                 
-                //p = "/images/photo/"+pic.FileName;*/
+                p = "/images/photo/"+pic.FileName;
             }
             
-            /*if(info == null)
+            if(info == null)
             {
                 fakerDB.Infos.Add( new Info
                 { 
@@ -125,11 +124,10 @@ namespace WaterCool.Controllers
                 info.introduce = introduce;
                 info.city = city;
                 info.photoAddress = p == "" ? info.photoAddress : p;
-            }*/
+            }
 
 
-            //return RedirectToAction("Self");
-            return "bb";
+            return RedirectToAction("Self");
         }
 
         public IActionResult About()
