@@ -70,7 +70,7 @@
     display: none ;
 }
 footer{
-    height:5%;
+    height:30px;
     width: 100%;
     position: fixed;
     overflow-x: hidden;

@@ -7,60 +7,61 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<div style="height:100%;">
+    <div style="width:100%; height:200px; background-color:darkgrey;position:relative; ">
 
-<div style="width:100%; height:200px; background-color:darkgrey;position:relative; ">
+    @if((Model != null && Model.photoAddress == null) || (Model == null && @ViewBag.errmsg ==null)){
+        <div style="width:180px;height:180px;border:solid 1px;position:absolute;bottom:0px;">
+            <img src="http://fakeimg.pl/180x180/" height="180"  width="180">
+        </div>
+    }
+    @if(Model != null && Model.photoAddress != null ){
+        <div style="width:180px;height:180px;border:solid 1px;position:absolute;bottom:0px;">
+            <img src="@Model.photoAddress" height="180"  width="180">
+        </div>
+    }
 
-@if((Model != null && Model.photoAddress == null) || (Model == null && @ViewBag.errmsg ==null)){
-    <div style="width:180px;height:180px;border:solid 1px;position:absolute;bottom:0px;">
-        <img src="http://fakeimg.pl/180x180/" height="180"  width="180">
+    @if(ViewBag.isFriend != null && !ViewBag.isFriend && (@ViewBag.errmsg ==null)){
+        <button id = "mkf">加入好友</button>
+    }
     </div>
-}
-@if(Model != null && Model.photoAddress != null ){
-    <div style="width:180px;height:180px;border:solid 1px;position:absolute;bottom:0px;">
-        <img src="@Model.photoAddress" height="180"  width="180">
+
+    <div class="row">
+
+        <div class="col-md-6">
+            @if(@ViewBag.isself != null && @ViewBag.isself){
+                <a href = "../Edit/@ViewBag.uid">編輯</a>
+            }
+            @if(Model != null){
+            <input type = "hidden" id = "uid" value =@Model.uid>
+            <ul>
+                <li>姓名:<label> @Model.username </label></li>
+                <li>性別:<label> @Model.sex </label></li>
+                <li>城市:<label> @Model.city</label></li>
+                <li>生日:<label>@Model.birthday</label></li>
+                <li>工作:<label>@Model.job</label></li>
+                自我介紹:<br>
+                <label>@Model.introduce</label> 
+            </ul>
+            }else if(Model == null && ViewBag.errmsg == null){
+            <input type="hidden" id = "uid" value = @ViewBag.uid>
+            <ul>
+                <li>姓名:<label> @ViewBag.username</label></li>
+                <li>性別:<label>  </label></li>
+                <li>城市:<label> </label></li>
+                <li>生日:<label></label></li>
+                <li>工作:<label></label></li>
+                自我介紹:<br>
+                <label></label> 
+            </ul>
+            }else if(ViewBag.errmsg !=null){
+                <div>@ViewBag.errmsg</div>
+            }
+            
+            
+        </div>
+    
     </div>
-}
-
-@if(ViewBag.isFriend != null && !ViewBag.isFriend && (@ViewBag.errmsg ==null)){
-    <button id = "mkf">加入好友</button>
-}
-</div>
-
-<div class="row">
-
-    <div class="col-md-6">
-        @if(@ViewBag.isself != null && @ViewBag.isself){
-            <a href = "../Edit/@ViewBag.uid">編輯</a>
-        }
-        @if(Model != null){
-        <input type = "hidden" id = "uid" value =@Model.uid>
-        <ul>
-            <li>姓名:<label> @Model.username </label></li>
-            <li>性別:<label> @Model.sex </label></li>
-            <li>城市:<label> @Model.city</label></li>
-            <li>生日:<label>@Model.birthday</label></li>
-            <li>工作:<label>@Model.job</label></li>
-            自我介紹:<br>
-            <label>@Model.introduce</label> 
-        </ul>
-        }else if(Model == null && ViewBag.errmsg == null){
-        <input type="hidden" id = "uid" value = @ViewBag.uid>
-        <ul>
-            <li>姓名:<label> @ViewBag.username</label></li>
-            <li>性別:<label>  </label></li>
-            <li>城市:<label> </label></li>
-            <li>生日:<label></label></li>
-            <li>工作:<label></label></li>
-            自我介紹:<br>
-            <label></label> 
-        </ul>
-        }else if(ViewBag.errmsg !=null){
-            <div>@ViewBag.errmsg</div>
-        }
-        
-        
-    </div>
-   
 </div>
 <script>
     $("#mkf").click(function(){
