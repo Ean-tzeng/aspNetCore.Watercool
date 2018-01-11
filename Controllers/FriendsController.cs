@@ -20,7 +20,8 @@ namespace WaterCool.Controllers
         public IActionResult List()
         {
             int u_Id = Int32.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid).Value) ;
-            List<Friendship> FriendsList = fakerDB.Friends.FindAll(x => x.user_id == u_Id);
+            List<Friendship> newList = fakerDB.Friends.Join(fakerDB.Infos, Friendship => Friendship.friend_id, Info => Info.id , (Friendship, info) => new Friendship{ user_id = Friendship.user_id, friend_id = Friendship.friend_id, fri_name = Friendship.fri_name, photo = info.photoAddress }).Cast<Friendship>().ToList();
+            List<Friendship> FriendsList = newList.FindAll(x => x.user_id == u_Id);
             return View(FriendsList);
             
         }
@@ -41,7 +42,23 @@ namespace WaterCool.Controllers
             var result = resultC.Skip(count).Take(num);
             return new ObjectResult(result);
         }
-
+        [HttpPost]
+        public IActionResult MakeFriend( int id )
+        {
+            int uid =Int32.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid).Value);
+            int fid = id;
+            Friendship relation = fakerDB.Friends.FirstOrDefault(x => x.user_id == uid && x.friend_id == fid);
+            if(relation != null)
+            {
+                return Json(new { status="error",message="已是好友關係"});
+            }
+            else
+            {
+                fakerDB.Friends.Add( new Friendship{ user_id = uid, friend_id = fid, fri_name = fakerDB.Users.FirstOrDefault(x => x.id == fid).Username });
+                return Json(new { status="success",message="你們已成為好友"});
+            }
+            
+        }
 
     }
 }

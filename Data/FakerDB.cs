@@ -34,7 +34,11 @@ namespace WaterCool.Data
         };
         public static List<Info> Infos = new List<Info>
         {
-            new Info{ id= 1, userId = 1, sex = "男", city = "newyork", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" }
+            new Info{ id= 1, userId = 1, sex = "男", city = "test的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
+            new Info{ id= 2, userId = 2, sex = "男", city = "admin的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
+            new Info{ id= 3, userId = 3, sex = "男", city = "friend1的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
+            new Info{ id= 4, userId = 4, sex = "男", city = "friend2的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
+            new Info{ id= 5, userId = 5, sex = "男", city = "friend3的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" }
         };
     }
 }

@@ -12981,11 +12981,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\WaterCool.csproj",
+      "projectUniqueName": "c:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\WaterCool.csproj",
       "projectName": "WaterCool",
-      "projectPath": "C:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\WaterCool.csproj",
+      "projectPath": "c:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\WaterCool.csproj",
       "packagesPath": "C:\\Users\\Ean.Tzeng\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\obj\\",
+      "outputPath": "c:\\Users\\Ean.Tzeng\\Desktop\\aspNetCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",

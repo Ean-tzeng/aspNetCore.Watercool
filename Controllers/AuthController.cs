@@ -70,6 +70,7 @@ namespace WaterCool.Controllers
             {
                 int i = fakerDB.Users.Max(x => x.id)+1;
                 fakerDB.Users.Add(new User{ id = i, Username=model.Username, password=model.password, role="Member", connectionId="" });
+                fakerDB.Infos.Add(new Info { id = fakerDB.Infos.Max(x => x.id)+1, userId = i  });
                  return RedirectToAction(nameof(AuthController.Login), "Auth");
             }
             

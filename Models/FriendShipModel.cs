@@ -7,5 +7,6 @@ namespace WaterCool.Models
         public int user_id;
         public int friend_id;
         public string fri_name;
+        public string photo;
     }
 }
