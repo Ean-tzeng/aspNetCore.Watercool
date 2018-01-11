@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace WaterCool.Controllers
 {
@@ -90,8 +91,9 @@ namespace WaterCool.Controllers
             Info info = fakerDB.Infos.SingleOrDefault(x => x.userId == uid);
             if (pic != null || pic.Length != 0)
             {
+                string varpath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? @"wwwroot\images\photo" : @"wwwroot/images/photo";
                 var path = Path.Combine(
-                    Directory.GetCurrentDirectory(), @"wwwroot/images/photo", 
+                    Directory.GetCurrentDirectory(), varpath, 
                     pic.FileName);
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
