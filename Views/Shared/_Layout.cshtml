@@ -40,6 +40,9 @@
                     <li>
                         <a asp-area="" asp-controller="Home" asp-action="Self">Info </a>
                     </li>
+                    <li>
+                        <div style="padding-top:10px;"><input type="text"><button><img src ="http://www.iezvu.com/images/cloudvideo/cloudvideo30.gif" width="20" height="20"></button></div>
+                    </li>
                 </ul>
                 @if (User.Identity.IsAuthenticated){ 
                         <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
