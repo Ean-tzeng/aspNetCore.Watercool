@@ -88,17 +88,17 @@ namespace WaterCool.Controllers
         {
             string p ="";
             Info info = fakerDB.Infos.SingleOrDefault(x => x.userId == uid);
-            /*if (pic != null || pic.Length != 0)
+            if (pic != null || pic.Length != 0)
             {
                 var path = Path.Combine(
                     Directory.GetCurrentDirectory(), @"wwwroot\images\photo", 
                     pic.FileName);
-                using (var stream = new FileStream(path, FileMode.Create))
+                /*using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await pic.CopyToAsync(stream);
-                }
-                p = "/images/photo/"+pic.FileName;
-            }*/
+                }*/
+                //p = "/images/photo/"+pic.FileName;
+            }
             
             if(info == null)
             {
