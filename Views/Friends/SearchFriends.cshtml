@@ -1,0 +1,29 @@
+@model IEnumerable<WaterCool.Models.User>
+
+<div style="margin-top:10px;">
+@if(ViewBag.msg == null){
+    @foreach(var fsl in Model)
+    {
+        <div style="height:70px;">
+            <a style="text-decoration:none;" href="#">
+                <div style="border: solid 1px; border-color:darkgrey; height:70px;padding-top:10px;padding-left:10px;" id=@Html.DisplayFor(mfsl => fsl.id) onclick="communication(this.id)">
+                    <a style="float:left;" href ="../Home/Info/@Html.DisplayFor(mfsl => fsl.id)">
+                        @if(fsl.photo ==""){
+                            <img src="http://fakeimg.pl/40x40/">
+                        }
+                        @if(fsl.photo != ""){
+                            <img src="@fsl.photo" height="40" width="40">
+                        }
+                                
+                    </a>
+                    <div style="font-size:10px;float:left;color:black; overflow-x: hidden;">
+                        @Html.DisplayFor(mfsl => fsl.Username)
+                    </div> 
+                </div> 
+            </a>
+        </div>
+    }
+}else{
+    <span>@ViewBag.msg</span>
+}
+</div>

@@ -49,7 +49,13 @@ namespace WaterCool.Controllers
             }
             else
             {
-                ViewData["noUser"] = "帳號密碼錯誤";
+                if(user == null)
+                {
+                    ViewData["noUser"] = "此帳號尚未註冊!";
+                }else{
+                    ViewData["noUser"] = "帳號密碼錯誤";
+                }
+                
                 return View(model);
             }
          }

@@ -18,10 +18,8 @@
         var postContainer = document.getElementById("PostCotainer");
         console.log(posts);
         for( var tmp in posts){
-            //postContainer.appendChild( makePost(posts[tmp]) );
             postContainer.appendChild(makePost(posts[tmp]));
         }
-        $("#PostCotainer").innerHTML = d ;
 
     });
     function PostPost(){

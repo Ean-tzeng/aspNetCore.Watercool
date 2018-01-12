@@ -9,6 +9,7 @@ namespace WaterCool.Models
         public string password;
         public string role;
         public string connectionId;
+        public string photo;
 
     }
 }
