@@ -11,7 +11,7 @@
         {
             <div style="height:70px;">
                 <a style="text-decoration:none;" href="#">
-                    <div style="border: solid 1px; border-color:darkgrey; height:70px;padding-top:10px;padding-left:10px;" id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)">
+                    <div style="border: solid 1px; border-color:darkgrey; overflow-y:hidden;height:70px;padding-top:10px;padding-left:10px;" id=@Html.DisplayFor(mfsl => fsl.friend_id) onclick="communication(this.id)">
                         <a style="float:left;" href ="../Home/Info/@Html.DisplayFor(mfsl => fsl.friend_id)">
                             @if(fsl.photo ==""){
                                 <img src="http://fakeimg.pl/40x40/">
@@ -43,9 +43,10 @@
         <div id="showmsg" style="padding-left:10px;padding-right:10px;word-wrap:break-word; height:95%;width:100%; border: solid 1px; margin-bottom: 5px; overflow-y:scroll;"><div style="height:100px; text-align:center;margin-top:50% ">請選擇聊天對象</div>
             
         </div>
-        <textarea style="overflow-y:scroll;resize: none; height:5%;width:100%" type ="text" id="message" placeholder="請輸入訊息" disabled></textarea>
+        <textarea style="overflow-y:scroll;resize: none; height:20px;;width:100%" type ="text" id="message" placeholder="請輸入訊息" disabled></textarea>
     </div>
-    
+ 
+ 
 </div>
 @section scripts {
     <script>
@@ -128,7 +129,7 @@
             
             function send()
             {
-                var msg =   $('#message').val();
+                var msg =   $('#message').val().replace(/\n\r?/g, '<br />');
                 var id = $("#userId").val();
                 if(msg == ""){
                     return ;

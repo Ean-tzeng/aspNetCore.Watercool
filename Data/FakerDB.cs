@@ -40,5 +40,9 @@ namespace WaterCool.Data
             new Info{ id= 4, userId = 4, sex = "男", city = "friend2的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
             new Info{ id= 5, userId = 5, sex = "男", city = "friend3的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" }
         };
+        public static List<CommendModel> commends = new List<CommendModel>
+        {
+            
+        };
     }
 }

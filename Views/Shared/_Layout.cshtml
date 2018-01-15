@@ -41,7 +41,7 @@
                         <a asp-area="" asp-controller="Home" asp-action="Self">Info </a>
                     </li>
                     <li>
-                        <form style="padding-top:10px;" asp-controller="Friends" asp-action="SearchFriends"><input type="text" id = "Username" name ="Username"><button><img src ="http://www.iezvu.com/images/cloudvideo/cloudvideo30.gif" width="20" height="20"></button></form>
+                        <form style="padding-top:10px;" asp-controller="Friends" asp-action="SearchFriends"><input type="text" id = "Username" name ="Username"><button type="submit"><img src ="http://www.iezvu.com/images/cloudvideo/cloudvideo30.gif" width="20" height="20"></button></form>
                     </li>
                 </ul>
                 @if (User.Identity.IsAuthenticated){ 

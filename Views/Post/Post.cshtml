@@ -16,10 +16,14 @@
     $(document).ready(function(){
         var posts = getPost(10);
         var postContainer = document.getElementById("PostCotainer");
-        console.log(posts);
-        for( var tmp in posts){
-            postContainer.appendChild(makePost(posts[tmp]));
+        console.log(posts.status);
+        if(!posts.status && posts.status != 0)
+        {
+            for( var tmp in posts){
+                postContainer.appendChild(makePost(posts[tmp]));
+            }
         }
+        
 
     });
     function PostPost(){
@@ -29,7 +33,7 @@
             var d = $.ajax({
                 type: 'POST',
                 url: '/Post/Post',
-                data: { content: posttxt.value  },
+                data: { content: posttxt.value.replace(/\n\r?/g, '<br />')  },
                 async:   false
             }).responseText;
             var e = JSON.parse(d);
@@ -71,7 +75,7 @@
         var ShareBtn = document.createElement("BUTTON");
         PostCard.className = "PostCard";
         PostAuth.className = "PostAuth";
-        PostAuth.id = obj.userid;
+        PostAuth.setAttribute("id", obj.userid);
         PostDate.className = "PostDate";
         PostContent.className = "PostContent";
         LikeBtn.className = "PostBtn";
@@ -88,12 +92,68 @@
         PostCard.appendChild(PostCommand);
         PostLike.id = "PostLike";
         LikeBtn.innerHTML = "<img src='http://www.shejiye.com/uploadfile/icon/2017/0203/shejiyeiconkpysipobwkn.png' width='20' height='20'>";
+        ReplyBtn.setAttribute("onclick", "replyClick(this)");
         ReplyBtn.innerHTML = "留言";
         ShareBtn.innerHTML = "分享";
         PostCommand.id = "PostCommand";
-        PostCommand.appendChild(LikeBtn);
+        //PostCommand.appendChild(LikeBtn);
         PostCommand.appendChild(ReplyBtn);
-        PostCommand.appendChild(ShareBtn);
+        //PostCommand.appendChild(ShareBtn);
+        if(obj.commend != null){
+            for(var tmp in obj.commend){
+                var commend = document.createElement("Div");
+                commend.id = PostCard.id +"_commDiv";
+                commend.style = "background-color:darkgray";
+                commend.innerHTML = obj.commend[tmp].username+" : "+ obj.commend[tmp].commend;
+                PostCard.appendChild(commend);
+            }
+        }
         return PostCard;
     }
+    function replyClick( obj ){
+        var postcard = obj.parentElement.parentElement;
+        //var postcontainer = postcard.parentElement;
+        var bool = postcard.id +"_comm";
+        var boolObj = document.getElementById(bool);
+        if(boolObj){
+            removeCommDiv(postcard.id);
+        }else{
+            var input = document.createElement("INPUT");
+            var sendComm = document.createElement("BUTTON");
+            sendComm.textContent ="送出";
+            sendComm.id = postcard.id +"_sendComm";
+            postcard.appendChild(input, postcard.nextSibling);
+            postcard.appendChild(sendComm, postcard.nextSibling);
+            var postid = postcard.id;
+            var commtext = input.innerHTML;
+            sendComm.setAttribute("onclick", "postComm("+postid+")");
+            input.id = postcard.id +"_comm";
+        }
+        
+    }
+    function postComm(postid){
+        var d = $.ajax({ 
+            type : 'POST',
+            url: "Post/PostCommend",
+            data:{
+                postID :postid,
+                context: document.getElementById(postid+'_comm').value
+            },
+            async:   false
+            
+        }).responseJSON;
+        var PostCard = document.getElementById(postid);
+        var commend = document.createElement("Div");
+        commend.id = postid +"_commDiv";
+        commend.style = "background-color:darkgray";
+        commend.innerHTML = d.username+" : "+ d.commend
+        PostCard.appendChild(commend);
+        removeCommDiv(postid);
+        
+    }
+    function removeCommDiv(postid){
+        document.getElementById(postid + "_comm").remove();
+        document.getElementById(postid + "_sendComm").remove();
+    }
+
 </script>

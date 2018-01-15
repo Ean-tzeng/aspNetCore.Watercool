@@ -36,8 +36,8 @@ namespace WaterCool.Controllers
         [HttpPost]
         public IActionResult GetPost(int count)
         {
-            //int idx = Int32.Parse( HttpContext.User.FindFirst(ClaimTypes.Sid).Value );
-            int idx = 1;
+            int idx = Int32.Parse( HttpContext.User.FindFirst(ClaimTypes.Sid).Value );
+            //int idx = 1;
             List<Friendship> Friends = fakerDB.Friends.FindAll(x => x.friend_id == idx);
             List<PostsModel> posts = fakerDB.Posts.FindAll(x => x.userId == idx);
             foreach( Friendship F in Friends)
@@ -48,8 +48,21 @@ namespace WaterCool.Controllers
                     posts.Add(p);
                 }
             }
-            var result = fakerDB.Users.Join(posts,  User => User.id,PostsModel => PostsModel.userId,  ( User, PostsModel) => new { postId = PostsModel.postId ,userId = User.id, Author = User.Username, context = PostsModel.context, update = PostsModel.update } );
-            return new ObjectResult(result.OrderByDescending(x => x.update).Take(count));
+            if(posts.Count > 0)
+            {
+                var result = fakerDB.Users.Join(posts,  User => User.id,PostsModel => PostsModel.userId,  ( User, PostsModel) => new { postId = PostsModel.postId ,userId = User.id, Author = User.Username, context = PostsModel.context, update = PostsModel.update, commend = fakerDB.commends.FindAll(x => x.postId == PostsModel.postId) } );
+                return new ObjectResult(result.OrderByDescending(x => x.update).Take(count));
+            }
+
+            return new ObjectResult(new { Status = 0 });
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult PostCommend(int postID, string context)
+        {
+            CommendModel comm = new CommendModel{ postId = postID, userID =Int32.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid).Value),username = HttpContext.User.FindFirst(ClaimTypes.Name).Value,  commend = context };
+            fakerDB.commends.Add(comm);
+            return new ObjectResult(comm);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace WaterCool.Models
 {
@@ -9,5 +10,6 @@ namespace WaterCool.Models
         public string context;
         public String update;
         public String Likes;
+        public List<CommendModel> commend;
     }
 }

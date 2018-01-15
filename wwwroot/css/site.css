@@ -36,14 +36,12 @@
 .myMsg{
     width:100%;
     text-align:right;
-    display:inline-block;
     padding: 5px;
 }
 .otherMsg{
     width:100%;
     text-align:left;
     padding: 5px;
-    display:inline-block;
 }
 .msgText{
     padding:10px;
@@ -51,6 +49,7 @@
     background-color: black;
     font-size:20px;
     color: white;
+    display: inline-flex;
 }
 .badge-red {
     display: inline-block;
@@ -95,9 +94,10 @@ footer{
 .PostContent{
     padding-left: 10px;
     width:100%;
+    display: inline-block;
 }
 .PostBtn{
-    width:33%;
+    width:100%;
     float:left;
     text-align: center;
     background-color: white;
@@ -105,7 +105,8 @@ footer{
     
 }
 .PostBtn:hover{
-    background-color: darkgray;
+    background-color: black;
+    color:white;
 }
 .PostBtn:active{
     background-color: aqua;
