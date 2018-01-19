@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.SignalR;
 using WaterCool.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
 
 namespace WaterCool
 {
@@ -30,21 +32,21 @@ namespace WaterCool
            
             services.AddMvc();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-               .AddCookie(options =>
-               {
-                   
+                .AddCookie(options =>
+                {
                     options.LoginPath = new PathString("/Auth/Login");
                     options.AccessDeniedPath = new PathString("/denied");
-              })
-              .AddJwtBearer(jwtoptions =>
-              {
-                  jwtoptions.TokenValidationParameters = new TokenValidationParameters()
+                    
+                })
+                .AddJwtBearer( jwtoptions =>
+                {
+                    jwtoptions.TokenValidationParameters = new TokenValidationParameters()
                     {
-                    ValidIssuer = Configuration["Issuer"],
-                    ValidAudience = Configuration["Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                        ValidIssuer = Configuration["Issuer"],
+                        ValidAudience = Configuration["Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"]))
                     };
-              });
+                });
               services.AddSignalR();
         }
 

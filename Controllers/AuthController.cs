@@ -12,11 +12,20 @@ using WaterCool.Models;
 using WaterCool.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace WaterCool.Controllers
 {
     public class AuthController :Controller
     {
+         private IConfiguration _config;
+        public AuthController(IConfiguration config)
+        {
+            _config = config;
+        }
          public IActionResult Login(string returnUrl)
          {
              TempData["returnUrl"] = returnUrl;
@@ -86,5 +95,34 @@ namespace WaterCool.Controllers
              await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
              return RedirectToAction(nameof(PostController.Post), "Post");
          }
+         public IActionResult APILogin( string account, string password)
+         {
+            User user = fakerDB.Users.FirstOrDefault(x => x.Username == account && x.password == password);
+            if(user != null)
+            {
+                var tokenString = BuildToken(user);
+                return Ok(new { token = tokenString });
+            }
+            return Ok(new { errmsg = "登入失敗" });
+         }
+        private string BuildToken(User user)
+        {
+
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_config["Issuer"],
+            _config["Issuer"],
+            claims,
+            expires: DateTime.Now.AddMinutes(30),
+            signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }

@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WaterCool.Controllers
 {
@@ -154,6 +155,11 @@ namespace WaterCool.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult Test()
+        {
+            return Ok(new { msg ="aaa" });
         }
     }
 }
