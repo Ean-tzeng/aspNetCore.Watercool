@@ -103,7 +103,7 @@ namespace WaterCool.Controllers
                 var tokenString = BuildToken(user);
                 return Ok(new { token = tokenString });
             }
-            return Ok(new { errmsg = "登入失敗。account:"+login.Username+"。psd:"+login.password  });
+            return StatusCode(203);
          }
         private string BuildToken(User user)
         {
