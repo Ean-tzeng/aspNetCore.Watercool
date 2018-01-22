@@ -95,15 +95,15 @@ namespace WaterCool.Controllers
              await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
              return RedirectToAction(nameof(PostController.Post), "Post");
          }
-         public IActionResult APILogin( string account, string password)
+         public IActionResult APILogin( [FromBody] LoginViewModel login)
          {
-            User user = fakerDB.Users.FirstOrDefault(x => x.Username == account && x.password == password);
+            User user = fakerDB.Users.FirstOrDefault(x => x.Username == login.Username && x.password == login.password);
             if(user != null)
             {
                 var tokenString = BuildToken(user);
                 return Ok(new { token = tokenString });
             }
-            return Ok(new { errmsg = "登入失敗。account:"+account+"。psd:"+password  });
+            return Ok(new { errmsg = "登入失敗。account:"+login.Username+"。psd:"+login.password  });
          }
         private string BuildToken(User user)
         {
