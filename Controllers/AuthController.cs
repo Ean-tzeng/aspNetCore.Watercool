@@ -16,6 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Cors;
 
 namespace WaterCool.Controllers
 {
@@ -95,6 +96,7 @@ namespace WaterCool.Controllers
              await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
              return RedirectToAction(nameof(PostController.Post), "Post");
          }
+        [EnableCors("CorsPolicy")]  
          public IActionResult APILogin( [FromBody] LoginViewModel login)
          {
             User user = fakerDB.Users.FirstOrDefault(x => x.Username == login.Username && x.password == login.password);
