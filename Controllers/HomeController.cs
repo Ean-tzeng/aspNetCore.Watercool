@@ -90,7 +90,7 @@ namespace WaterCool.Controllers
         {
             string p ="";
             Info info = fakerDB.Infos.SingleOrDefault(x => x.userId == uid);
-            if (pic != null || pic.Length != 0)
+            if (pic != null)
             {
                 string varpath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? @"wwwroot\images\photo" : @"wwwroot/images/photo";
                 var path = Path.Combine(
