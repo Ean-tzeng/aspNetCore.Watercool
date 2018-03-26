@@ -13,6 +13,10 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Net;
+using System.Collections.Specialized;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace WaterCool.Controllers
 {
@@ -156,11 +160,13 @@ namespace WaterCool.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         public IActionResult Test()
         {
-            return Ok(new { msg ="aaa" });
+            return Ok();
         }
+
+        
     }
 }
