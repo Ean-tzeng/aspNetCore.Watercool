@@ -76,7 +76,7 @@ namespace WaterCool.Controllers
          [HttpPost]
          public IActionResult SignUp(LoginViewModel model, string returnUrl = null)
          {
-            User user = fakerDB.Users.SingleOrDefault(s => s.Username == model.Username && s.password == model.password);            
+            User user = fakerDB.Users.SingleOrDefault(s => s.Username == model.Username);            
             if(user != null )
             {
                 ViewData["noUser"]="帳號重複";

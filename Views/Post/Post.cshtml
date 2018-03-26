@@ -1,6 +1,6 @@
 <div style="height:80px;width:100%;">
     <br>
-    <div style="float:left;width:80%;"><textarea id= 'PostText' style="width:100%;resize:none;"></textarea></div>
+    <div style="float:left;width:80%;"><textarea id= 'PostText' style="width:100%;resize:none;" placeholder="請輸入動態消息"></textarea></div>
     <div style="float:left;width:20%;height:100%;padding:1%;"><button id = "submit" class="btn" style="width:100%;height:70%;" onclick="PostPost()">送出</button></div>
 </div>
 <div  class="row" style="padding:15px; height:100%;">
@@ -118,6 +118,7 @@
         }else{
             var input = document.createElement("INPUT");
             var sendComm = document.createElement("BUTTON");
+            input.className = "reInpt";
             sendComm.textContent ="送出";
             sendComm.id = postcard.id +"_sendComm";
             postcard.appendChild(input, postcard.nextSibling);

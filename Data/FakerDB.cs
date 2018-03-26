@@ -13,6 +13,8 @@ namespace WaterCool.Data
             new User{ id = 3, Username="friend1", password="friend1", role="Member", connectionId=""},
             new User{ id = 4, Username="friend2", password="friend2", role="Member", connectionId=""},
             new User{ id = 5, Username="friend3", password="friend3", role="Member", connectionId=""},
+            new User{ id = 6, Username="custom", password="custom", role="Member", connectionId="" },
+            
             
         };
         public static List<Friendship> Friends = new List<Friendship>
@@ -38,7 +40,8 @@ namespace WaterCool.Data
             new Info{ id= 2, userId = 2, sex = "男", city = "admin的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
             new Info{ id= 3, userId = 3, sex = "男", city = "friend1的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
             new Info{ id= 4, userId = 4, sex = "男", city = "friend2的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
-            new Info{ id= 5, userId = 5, sex = "男", city = "friend3的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" }
+            new Info{ id= 5, userId = 5, sex = "男", city = "friend3的家", birth = "1990/03/13", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" },
+            new Info{ id= 6, userId = 6, sex = "男", city = "custom的家", birth = "1977/09/15", job = "eng", photoAddress = "http://pic.pimg.tw/aijdesign/1352948082-53184121.jpg" }
         };
         public static List<CommendModel> commends = new List<CommendModel>
         {

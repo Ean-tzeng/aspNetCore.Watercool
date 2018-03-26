@@ -30,7 +30,7 @@
                 <span class="navbar-brand">WaterCool</span>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav ">
                     <li>
                         <a asp-area="" asp-controller="Post" asp-action="Post">動態消息 </a>
                     </li>
@@ -40,9 +40,11 @@
                     <li>
                         <a asp-area="" asp-controller="Home" asp-action="Self">Info </a>
                     </li>
-                    <li>
-                        <form style="padding-top:10px;" asp-controller="Friends" asp-action="SearchFriends"><input type="text" id = "Username" name ="Username"><button type="submit">搜尋</button></form>
-                    </li>
+                    @if(User.Identity.IsAuthenticated){
+                        <li>
+                            <form style="padding-top:10px;" asp-controller="Friends" asp-action="SearchFriends"><input style="width:250px;" type="text" id = "Username" name ="Username" placeholder="測試搜尋功能請輸入'custom'"><button type="submit">搜尋</button></form>
+                        </li>
+                    }
                 </ul>
                 @if (User.Identity.IsAuthenticated){ 
                         <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
