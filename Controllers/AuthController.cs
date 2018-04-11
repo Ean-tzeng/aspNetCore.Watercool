@@ -69,13 +69,13 @@ namespace WaterCool.Controllers
                 return View(model);
             }
          }
-         public  IActionResult SignUp()
-         {
+        public  IActionResult SignUp()
+        {
               return View();
-         }
-         [HttpPost]
-         public IActionResult SignUp(LoginViewModel model, string returnUrl = null)
-         {
+        }
+        [HttpPost]
+        public IActionResult SignUp(LoginViewModel model, string returnUrl = null)
+        {
             User user = fakerDB.Users.SingleOrDefault(s => s.Username == model.Username);            
             if(user != null )
             {
@@ -90,15 +90,16 @@ namespace WaterCool.Controllers
                  return RedirectToAction(nameof(AuthController.Login), "Auth");
             }
             
-         }
-         public async Task<IActionResult> Logout()
-         {
+        }
+        public async Task<IActionResult> Logout()
+        {
              await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
              return RedirectToAction(nameof(PostController.Post), "Post");
-         }
+        }
+        [HttpPost]
         [EnableCors("CorsPolicy")]  
-         public IActionResult APILogin( [FromBody] LoginViewModel login)
-         {
+        public IActionResult APILogin( [FromBody] LoginViewModel login)
+        {
             User user = fakerDB.Users.FirstOrDefault(x => x.Username == login.Username && x.password == login.password);
             if(user != null)
             {
@@ -106,23 +107,27 @@ namespace WaterCool.Controllers
                 return Ok(new { token = tokenString });
             }
             return StatusCode(403);
-         }
+        }
         private string BuildToken(User user)
         {
 
             var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                //new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("ID",user.id.ToString()),
+                new Claim("Name", user.Username)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_config["Issuer"],
-            _config["Issuer"],
-            claims,
-            expires: DateTime.Now.AddMinutes(30),
-            signingCredentials: creds);
+            var token = new JwtSecurityToken(
+                _config["Issuer"],
+                _config["Issuer"],
+                claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds
+            );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
