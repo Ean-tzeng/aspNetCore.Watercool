@@ -1,8 +1,10 @@
 @model WaterCool.Models.InfoViewModel
-@if(@Model.photoAddress == null){
+@if(@Model.photoAddress == null)
+{
     <img id = "bh" src="http://fakeimg.pl/180x180/">
 }
-@if(@Model.photoAddress != null){
+@if(@Model.photoAddress != null)
+{
     <img id = "bh" src="@Model.photoAddress" width = 180 height = 180>
 }
 
