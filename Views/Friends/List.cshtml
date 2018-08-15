@@ -118,8 +118,8 @@
 
         $(function () {
             let test = new WebSocket("ws:/"+document.location.host+"/sc/connect");
-            test.onopen = async ()=>{
-                await test.send('test')
+            test.onopen = ()=>{
+                test.send('test')
                 alert('傳送成功');
             }
             test.onmessage = async (e)=>{
