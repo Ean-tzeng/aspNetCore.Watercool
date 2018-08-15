@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Kakous.WebSocket;
 using Microsoft.AspNetCore.Http;
 
 namespace WaterCool.WS
 {
-	public class MyWebSocketHandler : WebSocketHandler
+	public static class MyWebSocketHandler 
 	{
-		public MyWebSocketHandler(WebSocketsConnectionManager webSocketsConnectionManager) : base(webSocketsConnectionManager)
-		{
-		}
+		public static async Task Echo(HttpContext context, WebSocket webSocket)
+        {
+            var buffer = new byte[1024 * 4];
+            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            while (!result.CloseStatus.HasValue)
+            {
+                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
 
-		public override string OnConnected(HttpContext context, WebSocket socket)
-		{
-			return base.OnConnected(context, socket, "1");
-		}
-
-		public override async Task ReceiveAsync(WebSocket sender, string message)
-		{
-			await SendMessageAsync("1", "收到：" + message);
-		}
+                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            }
+            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+        }
 	}
 }

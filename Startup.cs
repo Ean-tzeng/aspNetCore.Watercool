@@ -16,8 +16,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Kakous.WebSocket;
 using WaterCool.WS;
+using System.Net.WebSockets;
 
 namespace WaterCool
 {
@@ -33,7 +33,6 @@ namespace WaterCool
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddKakousWebSocket();
             services.AddMvc();
             services.AddCors(options =>
             {
@@ -79,6 +78,7 @@ namespace WaterCool
             }
             
             app.UseStaticFiles();
+            app.UseWebSockets();
             app.UseAuthentication();
             /*app.UseSignalR(routes =>  // <-- SignalR
             {
@@ -90,7 +90,26 @@ namespace WaterCool
                     name: "default",
                     template: "{controller=Post}/{action=Post}/{id?}");
             });
-            app.UseKakousWebSocket("/sc/connect", serviceProvider.GetService<MyWebSocketHandler>());
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/ws")
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                        await MyWebSocketHandler.Echo(context, webSocket);
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 400;
+                    }
+                }
+                else
+                {
+                    await next();
+                }
+
+            });
 
         }
     }

@@ -117,7 +117,7 @@
         }
 
         $(function () {
-            let test = new WebSocket("ws:/"+document.location.host+"/sc/connect");
+            let test = new WebSocket("ws:/"+document.location.host+"/ws");
             test.onopen = ()=>{
                 test.send('test')
                 alert('傳送成功');
