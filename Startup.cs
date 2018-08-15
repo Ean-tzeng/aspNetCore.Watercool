@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using Kakous.WebSocket;
+using WaterCool.WS;
 
 namespace WaterCool
 {
@@ -31,6 +33,7 @@ namespace WaterCool
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddKakousWebSocket();
             services.AddMvc();
             services.AddCors(options =>
             {
@@ -63,7 +66,7 @@ namespace WaterCool
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -74,19 +77,20 @@ namespace WaterCool
                 app.UseExceptionHandler("/Home/Error");
                 
             }
-
+            
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseSignalR(routes =>  // <-- SignalR
+            /*app.UseSignalR(routes =>  // <-- SignalR
             {
                 routes.MapHub<ChatHub>("chat");
-            });
+            });*/
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Post}/{action=Post}/{id?}");
             });
+            app.UseKakousWebSocket("/sc/connect", serviceProvider.GetService<MyWebSocketHandler>());
 
         }
     }

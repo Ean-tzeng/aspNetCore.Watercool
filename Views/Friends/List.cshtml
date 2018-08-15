@@ -117,7 +117,14 @@
         }
 
         $(function () {
-            
+            let test = new WebSocket("ws:/localhost:5000/sc/connect");
+            test.onopen = async ()=>{
+                await test.send('test')
+                alert('傳送成功');
+            }
+            test.onmessage = async (e)=>{
+                alert(e.data)
+            }
             let hubConnection = new signalR.HubConnection('/chat');
             $('#message').keypress(function(e){
                 var code = (e.code ? e.code : e.which);

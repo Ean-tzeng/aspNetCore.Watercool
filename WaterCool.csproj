@@ -10,6 +10,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.8.4"/>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0"/>
+    <PackageReference Include="Kakous.WebSocket.NetCore" Version="1.0.1"/>
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0"/>
