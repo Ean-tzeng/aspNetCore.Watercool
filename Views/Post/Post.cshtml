@@ -30,7 +30,7 @@
         if(posttxt.value !=""){
             var d = $.ajax({
                 type: 'POST',
-                url: '/Post/Post',
+                url: window.location.pathname!=='/' ? window.location.pathname + '/Post/Post': '/Post/Post',
                 data: { content: posttxt.value.replace(/\n\r?/g, '<br />')  },
                 async:   false
             }).responseText;
@@ -53,7 +53,7 @@
     function getPost(num){
         var d = $.ajax({
             type: 'POST',
-            url: '/Post/GetPost',
+            url: window.location.pathname!=='/' ? window.location.pathname +'/Post/GetPost': '/Post/GetPost',
             data: { 'count': num },
             async:   false
         }).responseText;
@@ -133,7 +133,7 @@
     function postComm(postid){
         var d = $.ajax({ 
             type : 'POST',
-            url: "Post/PostCommend",
+            url: window.location.pathname!=='/' ? window.location.pathname + "/Post/PostCommend" : '/Post/PostCommend',
             data:{
                 postID :postid,
                 context: document.getElementById(postid+'_comm').value

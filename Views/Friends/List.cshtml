@@ -50,6 +50,7 @@
 </div>
 @section scripts {
     <script>
+        var path = window.location.pathname
         $("#message").focus(function(){
             $("#showmsg").scrollTop($("#showmsg").prop("scrollHeight"));
         });
@@ -89,7 +90,7 @@
             });*/
             var d = $.ajax({
                 type: 'POST',
-                url: '/Friends/getMessage',
+                url: path.substring(0, path.lastIndexOf('/')) +'/getMessage',
                 data: { 'from': id , 'num' :num },
                 async:   false
             }).responseText;
@@ -117,8 +118,9 @@
         }
 
         $(function () {
-            
-            let hubConnection = new signalR.HubConnection('/chat');
+            var array = path.split('/')
+            var path2 = array.splice(0, array.length - 2).toString().replace(/,/g, '/')
+            let hubConnection = new signalR.HubConnection( path2 + '/chat');
             $('#message').keypress(function(e){
                 var code = (e.code ? e.code : e.which);
                 if(code == 13 && !e.shiftKey){
@@ -126,7 +128,6 @@
                     e.preventDefault();
                 }
             });
-            
             function send()
             {
                 var msg =   $('#message').val().replace(/\n\r?/g, '<br />');
